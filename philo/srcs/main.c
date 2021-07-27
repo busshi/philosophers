@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 12:09:22 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/27 17:26:40 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 18:13:00 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	philo_end(t_data *data, t_philo *philo)
 	long		i;
 
 	i = 0;
-	ft_usleep(1000);
+	usleep(1000);
 	while (i < data->nb_philo)
 	{
 		pthread_join(philo[i].thread, NULL);
