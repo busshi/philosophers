@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 15:28:22 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/27 17:40:06 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 22:38:01 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ static void	init_forks(t_philo *philo, int nb_philo)
 	while (i < nb_philo)
 	{
 		philo[i].forks = forks;
-		philo[i].left = &philo->forks[i];
+		philo[i].right = &philo->forks[i];
 		if (!i)
-			philo[i].right = &philo->forks[nb_philo - 1];
+			philo[i].left = &philo->forks[nb_philo - 1];
 		else
-			philo[i].right = &philo->forks[i - 1];
+			philo[i].left = &philo->forks[i - 1];
 		i++;
 	}
 }
@@ -66,11 +66,13 @@ static t_philo	*init_philo(t_data *data, enum e_stop *stop, long *full)
 {
 	int		i;
 	t_philo	*philo;
+	long	last_eat;
 
 	philo = (t_philo *)malloc(sizeof(t_philo) * data->nb_philo);
 	if (!philo)
 		return (NULL);
 	i = 0;
+	last_eat = calculate_ts();
 	while (i < data->nb_philo)
 	{
 		philo[i].data = data;
@@ -79,7 +81,7 @@ static t_philo	*init_philo(t_data *data, enum e_stop *stop, long *full)
 			*philo[i].stop = PHILO_FULL;
 		philo[i].id = i + 1;
 		philo[i].nb_eat = 0;
-		philo[i].last_eat = calculate_ts();
+		philo[i].last_eat = last_eat;
 		philo[i].philo_full = full;
 		i++;
 	}

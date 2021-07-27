@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 17:55:07 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/27 18:05:05 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 22:50:52 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,25 @@ void	change_state(t_philo *philo, enum e_state state)
 
 void	taking_forks(t_philo *philo)
 {
-	if (philo->id % 2)
+	if (!philo->id % 2)
 	{
 		pthread_mutex_lock(philo->right);
 		change_state(philo, TAKING_FORK);
-		if (philo->data->nb_philo == 1)
-		{
-			while (*philo->stop != PHILO_DEAD)
-				ft_usleep(100);
-			pthread_mutex_unlock(philo->right);
-			return ;
-		}
 		pthread_mutex_lock(philo->left);
 		change_state(philo, TAKING_FORK);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->right);
-		change_state(philo, TAKING_FORK);
 		pthread_mutex_lock(philo->left);
+		change_state(philo, TAKING_FORK);
+		if (philo->data->nb_philo == 1)
+		{
+			while (*philo->stop != PHILO_DEAD)
+				ft_usleep(100);
+			pthread_mutex_unlock(philo->left);
+			return ;
+		}
+		pthread_mutex_lock(philo->right);
 		change_state(philo, TAKING_FORK);
 	}
 }
