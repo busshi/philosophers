@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 14:57:05 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/26 11:07:00 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 17:29:32 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,21 @@ typedef enum e_error
 	MALLOC_FAIL
 }		t_error;
 
+typedef enum e_stop
+{
+	NO,
+	PHILO_DEAD,
+	PHILO_FULL
+}		t_stop;
+
 typedef enum e_state
 {
-	ALIVE,
-	DEAD,
-	FULL
-}		t_state;
-
-typedef enum e_status
-{
+	TAKING_FORK,
 	EATING,
 	SLEEPING,
 	THINKING,
-	FUL,
-	DIE
-}		t_status;
+	FULL,
+	DEAD
+}		t_state;
 
 #endif

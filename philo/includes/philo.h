@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 12:08:38 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/26 01:01:33 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 17:27:02 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ typedef struct s_philo
 	long			id;
 	pthread_t		thread;
 	long			nb_eat;
-	enum e_state	*state;
-	enum e_status	status;
+	enum e_stop		*stop;
 	long			last_eat;
 	long			*philo_full;
 	pthread_mutex_t	*forks;
@@ -50,7 +49,7 @@ typedef struct s_philo
 t_data		*init_data(int ac, char **av);
 t_philo		*init(t_data *data);
 int			init_display_mutex(t_data *data, t_philo *philo);
-void		change_state(t_philo *philo, enum e_status status);
+void		change_state(t_philo *philo, enum e_state state);
 int			exit_error(enum e_error error);
 void		fatal_error(enum e_error error);
 size_t		ft_strlen(const char *s);

@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 16:51:25 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/26 01:07:00 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 17:24:01 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	print_event(t_philo *philo, const char *event)
 {
 	long	timestamp;
 
-	if (*philo->state == DEAD
-		|| (philo->data->nb_eat_max == 0 && *philo->state == FULL))
+	if (*philo->stop == PHILO_DEAD
+		|| (philo->data->nb_eat_max == 0 && *philo->stop == PHILO_FULL))
 		return ;
 	timestamp = calculate_ts() - philo->data->start;
 	write_event(timestamp, philo->id, event);

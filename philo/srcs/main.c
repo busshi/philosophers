@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 12:09:22 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/26 18:58:23 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 17:26:40 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,11 @@ static void	*death_monitor(void *tmp)
 	t_philo	*philo;
 
 	philo = (t_philo *)tmp;
-	while (*philo->state != DEAD && *philo->state != FULL)
+	while (*philo->stop != PHILO_DEAD && *philo->stop != PHILO_FULL)
 	{
-		if (philo->data->nb_eat_max == 0)
-		{
-			change_state(philo, FUL);
-			break ;
-		}
 		if ((long)calculate_ts() - (long)philo->last_eat
 			>= philo->data->time_to_die)
-			change_state(philo, DIE);
+			change_state(philo, DEAD);
 		usleep(100);
 	}
 	return (philo);
@@ -44,7 +39,7 @@ void	*routine(void *tmp)
 		return ((void *)1);
 	}
 	pthread_detach(monitor);
-	while (*philo->state != DEAD && *philo->state != FULL)
+	while (*philo->stop != PHILO_DEAD && *philo->stop != PHILO_FULL)
 	{
 		is_eating(philo);
 		if (philo->data->nb_eat_max != -1
@@ -52,7 +47,7 @@ void	*routine(void *tmp)
 			(*philo->philo_full)++;
 		if (*philo->philo_full == philo->data->nb_philo)
 		{
-			*philo->state = FULL;
+			*philo->stop = PHILO_FULL;
 			break ;
 		}
 		is_sleeping(philo);
@@ -93,9 +88,9 @@ static void	philo_end(t_data *data, t_philo *philo)
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
-	if (*philo->state == DEAD)
+	if (*philo->stop == PHILO_DEAD)
 		printf("%sphilo: one philo is dead!!\n%s", RED, CLEAR);
-	if (data->nb_eat_max != -1 && *philo->state == FULL)
+	if (data->nb_eat_max != -1 && *philo->stop == PHILO_FULL)
 		printf("%sphilo: philosophers are full!\n%s", GREEN, CLEAR);
 	free_mutex(philo, data->nb_philo);
 	free_philo(data, philo);

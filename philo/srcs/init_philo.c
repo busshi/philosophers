@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 15:28:22 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/26 17:16:42 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 17:40:06 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	init_forks(t_philo *philo, int nb_philo)
 	}
 }
 
-static t_philo	*init_philo(t_data *data, enum e_state *state, long *full)
+static t_philo	*init_philo(t_data *data, enum e_stop *stop, long *full)
 {
 	int		i;
 	t_philo	*philo;
@@ -74,12 +74,9 @@ static t_philo	*init_philo(t_data *data, enum e_state *state, long *full)
 	while (i < data->nb_philo)
 	{
 		philo[i].data = data;
-		philo[i].state = state;
+		philo[i].stop = stop;
 		if (data->nb_eat_max == 0)
-			*philo[i].state = FULL;
-		else
-			*philo[i].state = ALIVE;
-		philo[i].status = THINKING;
+			*philo[i].stop = PHILO_FULL;
 		philo[i].id = i + 1;
 		philo[i].nb_eat = 0;
 		philo[i].last_eat = calculate_ts();
@@ -90,38 +87,39 @@ static t_philo	*init_philo(t_data *data, enum e_state *state, long *full)
 	return (philo);
 }
 
-static void	*fail_init_philo(enum e_state *state, long *full)
+static void	*fail_init_philo(enum e_stop *stop, long *full)
 {
 	free(full);
 	full = NULL;
-	free(state);
-	state = NULL;
+	free(stop);
+	stop = NULL;
 	fatal_error(MALLOC_FAIL);
 	return (NULL);
 }
 
 t_philo	*init(t_data *data)
 {
-	t_philo			*philo;
-	enum e_state	*state;
-	long			*full;
+	t_philo		*philo;
+	enum e_stop	*stop;
+	long		*full;
 
-	state = (enum e_state *)malloc(sizeof(enum e_state));
-	if (!state)
+	stop = (enum e_stop *)malloc(sizeof(enum e_stop));
+	if (!stop)
 	{
 		fatal_error(MALLOC_FAIL);
 		return (NULL);
 	}
+	*stop = NO;
 	full = (long *)malloc(sizeof(long));
 	if (!full)
 	{
-		free(state);
+		free(stop);
 		fatal_error(MALLOC_FAIL);
 		return (NULL);
 	}
 	*full = 0;
-	philo = init_philo(data, state, full);
+	philo = init_philo(data, stop, full);
 	if (!philo)
-		return (fail_init_philo(state, full));
+		return (fail_init_philo(stop, full));
 	return (philo);
 }

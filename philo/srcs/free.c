@@ -6,7 +6,7 @@
 /*   By: aldubar <aldubar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 18:57:31 by aldubar           #+#    #+#             */
-/*   Updated: 2021/07/25 18:58:26 by aldubar          ###   ########.fr       */
+/*   Updated: 2021/07/27 17:24:29 by aldubar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int	free_data(t_data *data)
 
 int	free_philo(t_data *data, t_philo *philo)
 {
-	if (philo[0].state)
+	if (philo[0].stop)
 	{
-		free(philo[0].state);
-		philo[0].state = NULL;
+		free(philo[0].stop);
+		philo[0].stop = NULL;
 	}
 	if (philo[0].philo_full)
 	{
